@@ -20,7 +20,10 @@ int _printf(const char *format, ...)
 		{
 			i++;
 			if (format[i] == '\0')
+			{
+				flush_buffer();
 				return (-1);
+			}
 			if (format[i] == 'c')
 				count += print_char(args);
 			else if (format[i] == 's')
@@ -49,6 +52,7 @@ int _printf(const char *format, ...)
 			count += _putchar(format[i]);
 		i++;
 	}
+	flush_buffer();
 	va_end(args);
 	return (count);
 }
