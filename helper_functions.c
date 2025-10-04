@@ -90,3 +90,49 @@ int print_int(va_list args)
 
 	return (count);
 }
+
+/**
+ * print_hex_char - prints a character in hex format
+ * @c: character to print
+ *
+ * Return: number of characters printed (always 4: \xXX)
+ */
+int print_hex_char(unsigned char c)
+{
+	char hex_digits[] = "0123456789ABCDEF";
+
+	_putchar('\\');
+	_putchar('x');
+	_putchar(hex_digits[c / 16]);
+	_putchar(hex_digits[c % 16]);
+	return (4);
+}
+
+/**
+ * print_string_special - prints string with non-printable chars as \xXX
+ * @args: va_list containing the string
+ *
+ * Return: number of characters printed
+ */
+int print_string_special(va_list args)
+{
+	char *s = va_arg(args, char *);
+	int count = 0;
+	int i = 0;
+
+	if (s == NULL)
+		s = "(null)";
+
+	while (s[i])
+	{
+		if ((s[i] > 0 && s[i] < 32) || s[i] >= 127)
+			count += print_hex_char((unsigned char)s[i]);
+		else
+		{
+			_putchar(s[i]);
+			count++;
+		}
+		i++;
+	}
+	return (count);
+}

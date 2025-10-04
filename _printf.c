@@ -28,6 +28,8 @@ int _printf(const char *format, ...)
 				count += print_char(args);
 			else if (format[i] == 's')
 				count += print_string(args);
+			else if (format[i] == 'S')
+				count += print_string_special(args);
 			else if (format[i] == '%')
 				count += print_percent();
 			else if (format[i] == 'd' || format[i] == 'i')
