@@ -3,12 +3,9 @@
 
 #include <stdarg.h>
 
-/* Core printf and helpers */
 int _printf(const char *format, ...);
 int _putchar(char c);
 int print_int(int n);
-
-/* Custom specifiers */
-int print_bin(unsigned int n); /* prints an unsigned int in binary for %b */
+int print_bin(unsigned int n); /* custom %b helper */
 
 #endif /* MAIN_H */

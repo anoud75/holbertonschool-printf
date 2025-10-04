@@ -59,10 +59,24 @@ int _printf(const char *format, ...)
 		}
 		else if (format[i] == 'b')
 		{
-			count += print_bin(va_arg(ap, unsigned int));
+			/* read as int (correct variadic type), then print */
+			int v = va_arg(ap, int);
+			unsigned int u;
+
+			if (v < 0)
+			{
+				count += _putchar('-');
+				u = (unsigned int)(-(long)v); /* avoid INT_MIN overflow */
+			}
+			else
+			{
+				u = (unsigned int)v;
+			}
+			count += print_bin(u);
 		}
 		else
 		{
+			/* unknown specifier: print verbatim */
 			count += _putchar('%');
 			count += _putchar(format[i]);
 		}
