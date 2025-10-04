@@ -1,48 +1,74 @@
+#include <stddef.h>
 #include "main.h"
 
 /**
- * _printf - produces output according to a format
- * @format: character string with zero or more directives
- *
- * Return: number of characters printed (excluding null byte)
+ * _printf - minimal printf supporting c, s, %, d, i, b
+ * @format: format string
+ * Return: number of characters printed, or -1 on error
  */
 int _printf(const char *format, ...)
 {
-	va_list args;
-	int i = 0, count = 0;
+	va_list ap;
+	int count = 0;
+	unsigned int i = 0;
+	char *s;
 
 	if (format == NULL)
 		return (-1);
 
-	va_start(args, format);
+	va_start(ap, format);
 
-	while (format[i])
+	while (format[i] != '\0')
 	{
-		if (format[i] == '%')
+		if (format[i] != '%')
 		{
+			count += _putchar(format[i]);
 			i++;
-			if (format[i] == '\0')
-				return (-1);
-			if (format[i] == 'c')
-				count += print_char(args);
-			else if (format[i] == 's')
-				count += print_string(args);
-			else if (format[i] == '%')
-				count += print_percent();
-			else if (format[i] == 'd' || format[i] == 'i')
-				count += print_int(args);
-			else
+			continue;
+		}
+
+		i++;
+		if (format[i] == '\0')
+		{
+			va_end(ap);
+			return (-1);
+		}
+
+		if (format[i] == 'c')
+		{
+			count += _putchar(va_arg(ap, int));
+		}
+		else if (format[i] == 's')
+		{
+			s = va_arg(ap, char *);
+			if (s == NULL)
+				s = "(null)";
+			while (*s)
 			{
-				count += _putchar('%');
-				count += _putchar(format[i]);
+				count += _putchar(*s);
+				s++;
 			}
+		}
+		else if (format[i] == '%')
+		{
+			count += _putchar('%');
+		}
+		else if (format[i] == 'd' || format[i] == 'i')
+		{
+			count += print_int(va_arg(ap, int));
+		}
+		else if (format[i] == 'b')
+		{
+			count += print_bin(va_arg(ap, unsigned int));
 		}
 		else
 		{
+			count += _putchar('%');
 			count += _putchar(format[i]);
 		}
 		i++;
 	}
-	va_end(args);
+
+	va_end(ap);
 	return (count);
 }

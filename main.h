@@ -2,14 +2,13 @@
 #define MAIN_H
 
 #include <stdarg.h>
-#include <unistd.h>
 
+/* Core printf and helpers */
 int _printf(const char *format, ...);
 int _putchar(char c);
-int print_char(va_list args);
-int print_string(va_list args);
-int print_int(va_list args);
-int print_percent(void);
-int print_number(unsigned int n);
+int print_int(int n);
 
-#endif
+/* Custom specifiers */
+int print_bin(unsigned int n); /* prints an unsigned int in binary for %b */
+
+#endif /* MAIN_H */
